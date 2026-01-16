@@ -68,7 +68,7 @@ def cp_attn(self, x: th.Tensor, mask=None, attn_mask=None) -> th.Tensor:
     )
     AA, AB, AC = tensor_proj.shape
     tensor_proj = tensor_proj.reshape((AA * AB, AC))
-    proj_delta = x @ self.dp(tensor_proj.T) 
+    proj_delta = x @ self.dp(tensor_proj.T)
     #print(tensor_proj.shape)
     proj_delta += global_model.CP_bias1[:self._embedding_dim_unit * self.act_heads]
     proj = self.proj(x)
@@ -158,7 +158,7 @@ def set_cara_swt(
         model.CP_A1 = nn.Parameter(th.empty([3*model_config['num_layers'], rank]), requires_grad=True)
         model.CP_A2 = nn.Parameter(th.empty([model_config['embedding_dim'], rank]), requires_grad=True)
         model.CP_A3 = nn.Parameter(th.empty([model_config['num_head'], rank]), requires_grad=True)
-        head_dim = model_config['_embedding_dim_unit'] 
+        head_dim = model_config['_embedding_dim_unit']
         model.CP_A4 = nn.Parameter(
             th.empty([head_dim, rank]), requires_grad=True
         )
@@ -239,4 +239,3 @@ def cara_swt(config: Dict[str, Any]) -> th.nn.Module:
     global_model = model
     set_cara_swt(model, rank, scale, l_mu, l_std)
     return global_model
-
